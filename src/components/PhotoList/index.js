@@ -1,7 +1,8 @@
-
 import React, { useState } from 'react'
+import Modal from '../Model'
 
 const PhotoList = ({ category }) => {
+  const [isModelOpen, setIsModelOpen ] = useState(false)
     // array of photos
     const [ photos ] = useState([
     {
@@ -101,10 +102,18 @@ const PhotoList = ({ category }) => {
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricie',
   },])
 
+  const [currentPhoto , setCurrentPhoto] = useState()
+
+  const toggleModal = (image, i) =>{
+    setCurrentPhoto({...image, index: i})
+    setIsModelOpen(!isModelOpen)
+
+  }
 //   going through each photo in the photos array , find each photo that matches the category that was selected by yser. if matched it is returned in an array assigned to currenyPhotos
   const currentPhotos = photos.filter((photo) =>photo.category === category)
   return (
     <div>
+    { isModelOpen &&  <Modal  currentPhoto={currentPhoto} onClose={toggleModal}/>}
   <div className='flex-row'>
   {currentPhotos.map((image, i , ) => (
 
@@ -112,6 +121,7 @@ const PhotoList = ({ category }) => {
       src={require(`../../assets/small/${category}/${i}.jpg`)}
       alt={image.name}
       className='img-thumbnail mx-1'
+      onClick={() => toggleModal(image, i)}
       key={image.name}></img>
   ))}
   </div>

@@ -1,10 +1,14 @@
 import About from './components/About';
 import Nav from './components/Nav'
 import Gallery from './components/Gallery'
+import Contact from './components/Contact';
 import './App.css';
 import React, { useState } from 'react'
 
 function App() {
+  // set to false to prevent the contact form from showing when a user initally  navigates to the homepage
+  const [contactSelected, setContactSelected] = useState(false)
+
   const [categories] = useState([
     {
       // list of categories
@@ -28,12 +32,20 @@ function App() {
     categories={categories}
     setCurrentCategory={setCurrentCategory}
     currentCategory={currentCategory}
+    contactSelected = {contactSelected}
+    setContactSelected = {setContactSelected}
     ></Nav>
-    <main>
-    <Gallery 
+    {!contactSelected ? 
+    (
+      <>
+      <Gallery 
     currentCategory={currentCategory}></Gallery>
     <About></About>
-    </main>
+      </>
+    ):(
+      <Contact></Contact>
+    )}
+   
     </div>
   );
 }
